@@ -1,8 +1,10 @@
 [tool.ruff]
 line-length = 88
+
+[tool.lint]
 extend-ignore = ["E203"]
 
-[tool.ruff.per-file-ignores]
+[tool.lint.per-file-ignores]
 "tests/*" = ["D"]
 
 [project]
