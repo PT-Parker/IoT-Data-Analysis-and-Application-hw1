@@ -22,13 +22,16 @@ jobs:
           python -m pip install -r requirements.txt pytest
       - name: Verify pytest installed
         run: |
-          python -c "import pytest; print('pytest_ok', pytest.__version__)" | tee -a pytest-output.txt
+          # write pytest import/version verification into a dedicated file
+          python -c "import pytest; print('pytest_ok', pytest.__version__)" | tee -a pytest-verify.txt
       - name: Run tests
         run: |
-          # run pytest and capture output to a file for artifact upload
-          python -m pytest -q | tee pytest-output.txt
-      - name: Upload pytest output
+          # run pytest and append output to pytest-output.txt (preserve prior content)
+          python -m pytest -q | tee -a pytest-output.txt
+      - name: Upload pytest outputs
         uses: actions/upload-artifact@v4
         with:
           name: pytest-output
-          path: pytest-output.txt
+          path: |
+            pytest-output.txt
+            pytest-verify.txt
