@@ -1,29 +1,32 @@
-# 待辦事項
+# To-Do List for Linear Regression Implementation
 
-## 核心功能
+## 1. Data Preparation
+- [ ] Load the dataset (e.g., from CSV, NumPy array).
+- [ ] Handle missing values (if any).
+- [ ] Split data into training and testing sets.
+- [ ] Feature scaling (if necessary, e.g., StandardScaler).
 
-- [x] 建立 Streamlit 應用程式基本框架
-- [x] 允許使用者調整斜率 `a`
-- [x] 允許使用者調整雜訊 `noise`
-- [x] 允許使用者調整資料點數量 `n`
-- [x] 根據參數生成合成資料
-- [x] 使用 `scikit-learn` 訓練簡易線性迴歸模型
-- [x] 視覺化資料點與迴歸線
+## 2. Model Implementation
+- [ ] Implement the Linear Regression model from scratch (if required).
+  - [ ] Initialize weights and bias.
+  - [ ] Define the hypothesis function (h(x) = wx + b).
+  - [ ] Define the cost function (Mean Squared Error).
+  - [ ] Implement Gradient Descent for optimization.
+    - [ ] Calculate gradients.
+    - [ ] Update weights and bias.
 
-## CRISP-DM 整合
+## 3. Training
+- [ ] Train the model using the training data.
+- [ ] Monitor convergence (e.g., plot cost function over iterations).
 
-- [x] **商業理解:** 撰寫專案目標說明
-- [x] **資料理解:** 說明資料生成方式
-- [x. **資料準備:** 說明此階段在此專案中相對單純
-- [x] **模型建立:** 說明使用的模型
-- [x] **模型評估:** 呈現模型效能指標 (R-squared, 斜率, 截距)
-- [x] **部署:** 將視覺化結果呈現於頁面
+## 4. Evaluation
+- [ ] Make predictions on the test set.
+- [ ] Calculate evaluation metrics: MSE, R-squared.
+- [ ] Visualize predictions vs. actual values.
 
-## 文件與其他
+## 5. Prediction
+- [ ] Create a function to make predictions on new, unseen data.
 
-- [x] 建立 `README.md`
-- [x] 建立 `requirements.txt`
-- [x] 建立 `.gitignore`
-- [x] 建立 `0_devLog.md`
-- [ ] (可選) 新增更多模型評估指標
-- [ ] (可選) 讓使用者可以調整截距 `b`
+## 6. Documentation and Reporting
+- [ ] Document the code.
+- [ ] Write a report summarizing the implementation, results, and conclusions.

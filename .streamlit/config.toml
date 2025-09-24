@@ -1,0 +1,5 @@
+[server]
+headless = true
+port = 8501
+enableCORS = true
+corsAllowedOrigins = ['http://localhost:8501']
