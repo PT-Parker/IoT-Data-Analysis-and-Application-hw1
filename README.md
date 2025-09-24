@@ -1,5 +1,7 @@
 # Interactive Linear Regression Visualizer
 
+> Note: minor README touch to re-run CI — no functional change.
+
 This project is a Streamlit web application that allows users to interactively visualize linear regression. Users can adjust parameters such as the number of data points, the coefficient of the linear relationship, and the amount of noise, and see how these changes affect the regression line and the identification of outliers.
 
 ## Demo Site
