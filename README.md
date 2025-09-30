@@ -7,7 +7,7 @@ This project is a Streamlit web application that allows users to interactively v
 ## Demo Site
 
 The application is deployed on Streamlit Cloud and can be accessed here:
-[https://aiotda.streamlit.app/](https://aiotda.streamlit.app/)
+https://iot-data-analysis-and-application-hw1-sebmlw2lxguon2it6y29ct.streamlit.app/
 
 ## Project Summary
 
