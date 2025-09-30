@@ -3,6 +3,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+import io
+import zipfile
+import datetime
 
 st.set_page_config(page_title="Interactive Linear Regression Visualizer", layout="wide")
 
@@ -68,5 +72,78 @@ st.subheader("Model Coefficients")
 st.write(f"Coefficient (a): {model.coef_[0]:.2f}")
 st.write(f"Intercept (b): {model.intercept_:.2f}")
 
+# Evaluation metrics
+mse = mean_squared_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+st.subheader("Evaluation")
+st.write(f"Mean Squared Error (MSE): {mse:.4f}")
+st.write(f"R-squared: {r2:.4f}")
+
 st.subheader("Top 5 Outliers")
 st.dataframe(outliers[['x', 'y', 'residuals']])
+
+# --- CRISP-DM explanation panel ---
+with st.expander("CRISP-DM: steps and how this app maps to them", expanded=False):
+     st.markdown("""
+     **CRISP-DM 步驟對應說明**
+
+     1. Business / Domain Understanding
+         - 目標：以簡單線性模型 y = a x + b + noise 示範模型行為與雜訊影響。
+     2. Data Understanding
+         - 透過隨機產生資料 (x, y)，觀察資料分布與雜訊。
+     3. Data Preparation
+         - 在本例中資料已簡化為數值欄位；使用者可透過側邊欄調整參數產生新資料。
+     4. Modeling
+         - 使用 scikit-learn 的 LinearRegression 進行擬合，並顯示回歸線與係數。
+     5. Evaluation
+         - 顯示 MSE、R²、殘差與前 5 個離群點（outliers）。
+     6. Deployment
+         - 本應用展示如何在 Streamlit 上部署與互動；可下載分析報告供匯出與評分。
+     """)
+
+# --- Report download ---
+st.markdown("---")
+if st.button("Prepare downloadable report (zip)"):
+     # Create report text
+     ts = datetime.datetime.now().isoformat()
+     report_lines = []
+     report_lines.append(f"CRISP-DM report generated: {ts}")
+     report_lines.append("")
+     report_lines.append("Parameters:")
+     report_lines.append(f"  n_points = {n_points}")
+     report_lines.append(f"  coefficient_a = {coefficient_a}")
+     report_lines.append(f"  intercept_b = {intercept_b}")
+     report_lines.append(f"  noise_variance = {noise_variance}")
+     report_lines.append(f"  random_seed = {seed}")
+     report_lines.append("")
+     report_lines.append("Model results:")
+     report_lines.append(f"  Coefficient (a): {model.coef_[0]:.6f}")
+     report_lines.append(f"  Intercept (b): {model.intercept_:.6f}")
+     report_lines.append(f"  MSE: {mse:.6f}")
+     report_lines.append(f"  R2: {r2:.6f}")
+
+     report_text = "\n".join(report_lines)
+
+     # Save plot to PNG bytes
+     img_bytes = io.BytesIO()
+     fig.savefig(img_bytes, format='png', bbox_inches='tight')
+     img_bytes.seek(0)
+
+     # Save dataframe CSV bytes
+     csv_bytes = df.to_csv(index=False).encode('utf-8')
+
+     # Create zip in-memory
+     zip_buffer = io.BytesIO()
+     with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+          zf.writestr('report.txt', report_text)
+          zf.writestr('plot.png', img_bytes.getvalue())
+          zf.writestr('data.csv', csv_bytes)
+     zip_buffer.seek(0)
+
+     # Provide download button
+     st.download_button(
+          label='Download analysis report (.zip)',
+          data=zip_buffer.getvalue(),
+          file_name=f'crispdm_report_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}.zip',
+          mime='application/zip'
+     )
